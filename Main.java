@@ -23,23 +23,33 @@ public class Main extends Application{ //extend application
         WE ARE GOING TO HAVE TO DO ALOT BECAUSE OF ALL THE BUTTONS WE NEED TO PRESS FOR THIS
         GAME:
         */
-        startButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent arg0) {
-                StackPane gamePane = new StackPane();
-                Scene game = new Scene(gamePane,600,400);
-                stage.setScene(game);
-                stage.show();
+        //attempt on a game loop:
+        //using tutorial on nano time:
+        final long startTime = System.nanoTime();
+        new AnimationTimer() {
+            public void handle(long currentTime) {
+                double t = (currentTime - startTime)/1000000000.0;
+                
+                
+                startButton.setOnAction(new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent arg0) {
+                    StackPane gamePane = new StackPane();
+                    Scene game = new Scene(gamePane,600,400);
+                    stage.setScene(game);
+                    stage.show();
 
-            }
-            EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
-                public void handle(KeyEvent event) {
-                    if(event.getCode() == keyCode.RIGHT) {
-                        //move player.
+                }
+                EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent event) {
+                        if(event.getCode() == keyCode.RIGHT) {
+                            //move player.
+                        }
                     }
                 }
+            });
             }
-
-        }); 
+        }.start();
+         
 
 
     }
