@@ -22,6 +22,8 @@ public class Main extends Application{ //extend application
         stage.setTitle("Dumb Temple run knockoff"); //just makes a title for the scene
         stage.show(); // its literally in the method name.
         Group sprites = new Group();
+        int initX = 200;
+        int initY = 150;
       
         //attempt on a game loop:
         //using tutorial on nano time:
@@ -38,13 +40,13 @@ public class Main extends Application{ //extend application
                         stage.setScene(game);
                         stage.show();
                         Canvas canvas = new Canvas(600,400);
-                        //Player player = new Player(x,y,xv,yv,h,w);
+                        Player player = new Player(initX,initY,20,20,0); //y velocity is placeholder
                         
-                        Rectangle r = new Rectangle()
+                       /* Rectangle r = new Rectangle()
                         r.setWidth(20);
                         r.setHeight(20);
                         r.setFill(Color.blue);   
-                        sprites.getChildren().add(r);
+                        sprites.getChildren().add(r); */
                         
                         //sprites.getChildren().add(player);
                 }
