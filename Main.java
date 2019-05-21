@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;  
 import javafx.stage.Stage;  
 import javafx.scene.layout.StackPane;
+import javafx.scene.shapes.*;
 
 
 public class Main extends Application{ //extend application 
@@ -18,11 +19,7 @@ public class Main extends Application{ //extend application
         stage.setScene(mainScene); //sets the scene for the stage i guess.
         stage.setTitle("Dumb Temple run knockoff"); //just makes a title for the scene
         stage.show(); // its literally in the method name.
-        /*
-        OKAY ITS TIME TO MAKE AN EVENT HANDLER FOR THE BUTTON. THIS IS WHAT
-        WE ARE GOING TO HAVE TO DO ALOT BECAUSE OF ALL THE BUTTONS WE NEED TO PRESS FOR THIS
-        GAME:
-        */
+      
         //attempt on a game loop:
         //using tutorial on nano time:
         final long startTime = System.nanoTime();
@@ -30,8 +27,6 @@ public class Main extends Application{ //extend application
             public void handle(long currentTime) {
                 double t = (currentTime - startTime)/1000000000.0;
                 
-                double x = 232 + 128 * Math.cos(t);
-                double y = 232 + 128 * Math.sin(t); //not sure what this means!!!
                 
                 startButton.setOnAction(new EventHandler<ActionEvent>(){
                 public void handle(ActionEvent arg0) {
@@ -39,6 +34,10 @@ public class Main extends Application{ //extend application
                     Scene game = new Scene(gamePane,600,400);
                     stage.setScene(game);
                     stage.show();
+                    Canvas canvas = new Canvas(600,400);
+                    //gamePane.getChildren().add(canvas);
+                    //Player player = new Player(150,200,10,0,20,20); // considering that the Player class creates a new rectangle2d.
+                    //gamePane.getChildren().add(player);
 
                 }
                 EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
@@ -49,16 +48,11 @@ public class Main extends Application{ //extend application
                     }
                 }
             });
-            }
         }.start();
-         
-
-
     }
     public static void Main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
 
-    // For some reason when I run it on my computer i get a error that the Main class cannot be found. 
-    // Will ask Ms. Adams bc I cant find anything about fixing it online so it makes no sense.
+   
 }
