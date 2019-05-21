@@ -30,6 +30,8 @@ public class Main extends Application{ //extend application
             public void handle(long currentTime) {
                 double t = (currentTime - startTime)/1000000000.0;
                 
+                double x = 232 + 128 * Math.cos(t);
+                double y = 232 + 128 * Math.sin(t); //not sure what this means!!!
                 
                 startButton.setOnAction(new EventHandler<ActionEvent>(){
                 public void handle(ActionEvent arg0) {
