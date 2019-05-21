@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;  
 import javafx.stage.Stage;  
 import javafx.scene.layout.StackPane;
-import javafx.scene.shapes.*;
+import javafx.scene.paint.*;
+import javafx.scene.shape.*;
+import java.utils.Color
 
 
 public class Main extends Application{ //extend application 
@@ -19,37 +21,52 @@ public class Main extends Application{ //extend application
         stage.setScene(mainScene); //sets the scene for the stage i guess.
         stage.setTitle("Dumb Temple run knockoff"); //just makes a title for the scene
         stage.show(); // its literally in the method name.
+        Group sprites = new Group();
       
         //attempt on a game loop:
         //using tutorial on nano time:
-        final long startTime = System.nanoTime();
-        new AnimationTimer() {
+        final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
+        new AnimationTimer() { //creates a timer that is called in each frame 
             public void handle(long currentTime) {
-                double t = (currentTime - startTime)/1000000000.0;
+                double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 
                 
                 startButton.setOnAction(new EventHandler<ActionEvent>(){
-                public void handle(ActionEvent arg0) {
-                    StackPane gamePane = new StackPane();
-                    Scene game = new Scene(gamePane,600,400);
-                    stage.setScene(game);
-                    stage.show();
-                    Canvas canvas = new Canvas(600,400);
-                    //gamePane.getChildren().add(canvas);
-                    //Player player = new Player(150,200,10,0,20,20); // considering that the Player class creates a new rectangle2d.
-                    //gamePane.getChildren().add(player);
-
+                    public void handle(ActionEvent arg0) {
+                        StackPane gamePane = new StackPane();
+                        Scene game = new Scene(gamePane,600,400);
+                        stage.setScene(game);
+                        stage.show();
+                        Canvas canvas = new Canvas(600,400);
+                        //Player player = new Player(x,y,xv,yv,h,w);
+                        
+                        Rectangle r = new Rectangle()
+                        r.setWidth(20);
+                        r.setHeight(20);
+                        r.setFill(Color.blue);   
+                        sprites.getChildren().add(r);
+                        
+                        //sprites.getChildren().add(player);
                 }
-                EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent event) {
-                        if(event.getCode() == keyCode.RIGHT) {
-                            //move player.
+                    EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
+                        public void handle(KeyEvent event) {
+                            if(event.getCode() == keyCode.RIGHT) {
+                                //player.xPosition += 100;  assuming each lane is about 100 or so pixels wide
+                                //player.update(); will create a update method that will update the player
+                            }
                         }
                     }
-                }
-            });
-        }.start();
-    }
+                    EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
+                        public void handle(keyEvent event) {
+                            if(event.getCode() == keyCode.LEFT) {
+                                //player.getXPosition() += -100
+                                //player.update();
+                            }
+                        }
+                    }
+                });
+            }.start();
+        }
     public static void Main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
