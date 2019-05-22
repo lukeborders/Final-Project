@@ -21,6 +21,7 @@ import javafx.application.Platform.*;
 
 
 
+
 public class Main extends Application{ //extend application 
     public void start(Stage stage) { // stage is basically a window; also start method is run when the program is run so everything that needs to be done when the program first starts is to be put here
         Button startButton = new Button("Start"); // example of a node or element is a button
@@ -93,9 +94,11 @@ public class Main extends Application{ //extend application
             public void handle(long currentTime) {
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 if(Platform.isFxApplicationThread()==true) {
-                    p.setLayoutX(player.getXPos());
-                    p.setLayoutY(player.getYPos());
+                    p.setTranslateX(player.getXPos());
+                    //p.setLayoutX(player.getXPos());
+                    //p.setLayoutY(player.getYPos());
                 }
+
 
                 //everything that needs to be updated 60 times per second
 
