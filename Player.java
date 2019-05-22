@@ -1,21 +1,40 @@
-import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
+import java.awt.Color;
 public class Player {
 	private int xPos;
 	private int yPos;
-	private boolean lorf; //true if left key pressed, false if right key pressed
-	//private int laneNum; // 0 for lane one, 1 for lane two , and 2 for lane three
+	private int height;
+	private int width;
 	private Rectangle playerSprite;
 	private double yVelocity;
-	public Player(int x, int y, int height, int width, double yv) {
+	public Player(int x, int y, int h, int w, double yv) {
 		xPos = x;
 		yPos = y;
 		yVelocity = yv;
-		playerSprite = new Rectangle(height,width,x,y);	
+		height = h;
+		width = w;
+		playerSprite = new Rectangle(x,y,height,width);	
 	}
-	public Rectangle update(double etime) { //needs to update position according to the time elapsed;
+	public void update(double etime) { //needs to update position according to the time elapsed;
 		yPos += yVelocity * etime;
 	}
 	public void render() {
 		playerSprite = new Rectangle(height,width,xPos,yPos);		
+		//need to somehow show the new sprite
+	}
+	public int getXPos() {
+		return xPos;
+	}
+	public int getYPos() {
+		return yPos;
+	}
+	public void setXPos(int newX) {
+		xPos = newX;
+	}
+	public void setYPos(int newY) {
+		yPos = newY;
+	}
+	public Rectangle getPlayer() {
+		return playerSprite;
 	}
 }
