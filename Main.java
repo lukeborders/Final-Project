@@ -59,6 +59,11 @@ public class Main extends Application{ //extend application
                             }
                         }
                     };
+                    //game.addEventHandler(KeyEvent,RightKeyEventHandler);
+                    //game.addEventHandler(KeyEvent,LeftKeyEventHandler);
+                    //game.add();
+                    //p.setOnKeyPressed(RightKeyEventHandler);
+                    //p.setOnKeyPressed(LeftKeyEventHandler);
                 });
                 player.update(elapsed); 
             }
