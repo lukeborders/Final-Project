@@ -13,6 +13,11 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.animation.AnimationTimer;
 import java.awt.Color;
+import javafx.scene.Node.*;
+import javafx.application.*;
+import javafx.application.Platform;
+import javafx.application.Platform.*;
+
 
 
 
@@ -25,9 +30,10 @@ public class Main extends Application{ //extend application
         stage.setScene(mainScene); //sets the scene for the stage i guess.
         stage.setTitle("Square Game"); //just makes a title for the scene
         stage.show(); // its literally in the method name.
-//____________________________________________________________________        
-        int initX = 200;
-        int initY = 150;
+
+//____________________________________________________________________
+        int initX = 0;
+        int initY = 0;
         StackPane gamePane = new StackPane();
         Scene game = new Scene(gamePane,600,400);
         final Player player = new Player(initX,initY,20,20,0); //y velocity is placeholder
@@ -46,7 +52,10 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.RIGHT) {
                     System.out.println("Right Key");
+                    player.setXPos(initX+200);
+                    player.render();
                     event.consume();
+
                 }  
             }
         };
@@ -55,6 +64,8 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.LEFT) {
                     System.out.println("Left key");
+                    player.setXPos(initX-200);
+                    player.render();
                     event.consume();
                 }
             };
@@ -81,7 +92,11 @@ public class Main extends Application{ //extend application
         new AnimationTimer() { //creates a timer that is called in each frame 
             public void handle(long currentTime) {
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
-                
+                if(Platform.isFxApplicationThread()==true) {
+                    p.setLayoutX(player.getXPos());
+                    p.setLayoutY(player.getYPos());
+                }
+
                 //everything that needs to be updated 60 times per second
 
                 player.update(elapsed);
