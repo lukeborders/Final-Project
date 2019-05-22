@@ -34,45 +34,63 @@ public class Main extends Application{ //extend application
         Rectangle p = player.getPlayer();
         //attempt on a game loop:
         //using tutorial on nano time:
+        startButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
+            public void handle(ActionEvent arg0) {
+                gamePane.getChildren().add(p);
+                stage.setScene(game);
+                stage.show();
+            }
+        });
+        
+        EventHandler<KeyEvent> RightKeyEventHandler = new EventHandler<KeyEvent>() { //detects right key press for future movement
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.RIGHT) {
+                    System.out.println("Right Key");
+                    event.consume();
+                }  
+            }
+        };
+
+        EventHandler<KeyEvent> LeftKeyEventHandler = new EventHandler<KeyEvent>() { //detects left key press for future movement
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.LEFT) {
+                    System.out.println("Left key");
+                    event.consume();
+                }
+            };
+        };
+
+        EventHandler<KeyEvent> escapeHandler = new EventHandler<KeyEvent>() { //detects escape key press for closing window
+            public void handle(KeyEvent event) {
+                if(event.getCode()==KeyCode.ESCAPE) {
+                    stage.close();
+                    System.out.println("Application Closed");
+                }
+            }
+        };
+
+        /* all registrations and usages of handlers */
+        game.addEventHandler(KeyEvent.KEY_PRESSED,escapeHandler);
+        game.addEventHandler(KeyEvent.KEY_PRESSED,RightKeyEventHandler);
+        game.addEventHandler(KeyEvent.KEY_PRESSED,LeftKeyEventHandler);
+        game.setOnKeyPressed(RightKeyEventHandler);
+        game.setOnKeyPressed(LeftKeyEventHandler);
+        game.setOnKeyPressed(escapeHandler);
+
         final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
         new AnimationTimer() { //creates a timer that is called in each frame 
             public void handle(long currentTime) {
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 
-                startButton.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(ActionEvent arg0) {
-                        gamePane.getChildren().add(p);
-                        stage.setScene(game);
-                        stage.show();
-                    }
-                    
-                
-                    
-                });
-                EventHandler<KeyEvent> RightKeyEventHandler = new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent event) {
-                        if(event.getCode() == KeyCode.RIGHT) {
-                            System.out.println("Right Key");
-                            event.consume();
-                        }  
-                    }
-                };
-                EventHandler<KeyEvent> LeftKeyEventHandler = new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent event) {
-                        if(event.getCode() == KeyCode.LEFT) {
-                            System.out.println("Left key");
-                            event.consume();
-                        }
-                    };
-                };
-                game.addEventHandler(KeyEvent.KEY_PRESSED,RightKeyEventHandler);
-                game.addEventHandler(KeyEvent.KEY_PRESSED,LeftKeyEventHandler);
-                p.setOnKeyPressed(RightKeyEventHandler);
-                p.setOnKeyPressed(LeftKeyEventHandler);
-                player.update(elapsed); 
+                //everything that needs to be updated 60 times per second
 
+                player.update(elapsed);
             }
+            
         }.start();
+        
+        
+        
     }
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
