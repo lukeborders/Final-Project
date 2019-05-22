@@ -53,7 +53,7 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.RIGHT) {
                     System.out.println("Right Key");
-                    player.setCurrentPos(initX+200);
+                    player.setCurrentPos(initX+50);
                     player.setXPos(player.getCurrentPos());
                     player.render();
                     event.consume();
@@ -66,7 +66,7 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.LEFT) {
                     System.out.println("Left key");
-                    player.setCurrentPos(initX-200);
+                    player.setCurrentPos(initX-50);
                     player.setXPos(player.getCurrentPos());
                     player.render();
                     event.consume();
@@ -96,9 +96,10 @@ public class Main extends Application{ //extend application
             public void handle(long currentTime) {
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 if(Platform.isFxApplicationThread()==true) {
-                    p.setTranslateX(player.getXPos());
-                    //p.setLayoutX(player.getXPos());
-                    //p.setLayoutY(player.getYPos());
+                    if(player.getCurrentPosition() < 200) {
+                        p.setTranslateX(player.getXPos());
+                    }
+                
                 }
 
 
