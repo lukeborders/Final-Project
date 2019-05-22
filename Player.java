@@ -1,5 +1,5 @@
 import javafx.scene.shape.Rectangle;
-import java.awt.Color;
+import javafx.scene.paint.Color;
 public class Player {
 	private int xPos;
 	private int yPos;
@@ -14,6 +14,7 @@ public class Player {
 		height = h;
 		width = w;
 		playerSprite = new Rectangle(x,y,height,width);	
+		playerSprite.setFill(Color.BLUE);
 	}
 	public void update(double etime) { //needs to update position according to the time elapsed;
 		yPos += yVelocity * etime;
