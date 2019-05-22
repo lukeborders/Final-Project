@@ -7,6 +7,7 @@ public class Player {
 	private int width;
 	private Rectangle playerSprite;
 	private double yVelocity;
+	private int currentPosition;
 	public Player(int x, int y, int h, int w, double yv) {
 		xPos = x;
 		yPos = y;
@@ -37,5 +38,11 @@ public class Player {
 	}
 	public Rectangle getPlayer() {
 		return playerSprite;
+	}
+	public int getCurrentPosition() {
+		return currentPosition;
+	}
+	public void setCurrentPosition(int newPos) {
+		currentPosition = newPos;
 	}
 }
