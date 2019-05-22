@@ -1,4 +1,3 @@
 1. Need to get Player.render() method to actually update the positions on the stage/scene or whatever
-2. add Obstacle class - should have just done a superclass Sprites and have Player and Obstacle extend it. Will change in class but it works so...
 3. Make sure Player.update() works and also put an update for xposition (figure out a system)
 4. MAKE THE ACTUAL PLAYER MOVE 
