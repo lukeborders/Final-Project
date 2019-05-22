@@ -53,7 +53,8 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.RIGHT) {
                     System.out.println("Right Key");
-                    player.setXPos(initX+200);
+                    player.setCurrentPos(initX+200);
+                    player.setXPos(player.getCurrentPos());
                     player.render();
                     event.consume();
 
@@ -65,7 +66,8 @@ public class Main extends Application{ //extend application
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.LEFT) {
                     System.out.println("Left key");
-                    player.setXPos(initX-200);
+                    player.setCurrentPos(initX-200);
+                    player.setXPos(player.getCurrentPos());
                     player.render();
                     event.consume();
                 }
