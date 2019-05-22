@@ -25,9 +25,13 @@ public class Main extends Application{ //extend application
         stage.setScene(mainScene); //sets the scene for the stage i guess.
         stage.setTitle("Square Game"); //just makes a title for the scene
         stage.show(); // its literally in the method name.
+//____________________________________________________________________        
         int initX = 200;
         int initY = 150;
+        StackPane gamePane = new StackPane();
+        Scene game = new Scene(gamePane,600,400);
         final Player player = new Player(initX,initY,20,20,0); //y velocity is placeholder
+        Rectangle p = player.getPlayer();
         //attempt on a game loop:
         //using tutorial on nano time:
         final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
@@ -37,40 +41,40 @@ public class Main extends Application{ //extend application
                 
                 startButton.setOnAction(new EventHandler<ActionEvent>(){
                     public void handle(ActionEvent arg0) {
-                        StackPane gamePane = new StackPane();
-                        gamePane.getChildren().add(player.getPlayer());
-                        Scene game = new Scene(gamePane,600,400);
+                        gamePane.getChildren().add(p);
                         stage.setScene(game);
                         stage.show();
-                        
-                       
                     }
-                    EventHandler RightKeyEventHandler = new EventHandler<KeyEvent>() {
-                        public void handle(KeyEvent event) {
-                            if(event.getCode() == KeyCode.RIGHT) {
-                                System.out.println("Right Key");
-                            }
-                        }
-                    };
-                    EventHandler LeftKeyEventHandler = new EventHandler<KeyEvent>() {
-                        public void handle(KeyEvent event) {
-                            if(event.getCode() == KeyCode.LEFT) {
-                                System.out.println("Left key");
-                            }
-                        }
-                    };
-                    //game.addEventHandler(KeyEvent,RightKeyEventHandler);
-                    //game.addEventHandler(KeyEvent,LeftKeyEventHandler);
-                    //p.setOnKeyPressed(RightKeyEventHandler);
-                    //p.setOnKeyPressed(LeftKeyEventHandler);
+                    
+                
+                    
                 });
+                EventHandler<KeyEvent> RightKeyEventHandler = new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent event) {
+                        if(event.getCode() == KeyCode.RIGHT) {
+                            System.out.println("Right Key");
+                            event.consume();
+                        }  
+                    }
+                };
+                EventHandler<KeyEvent> LeftKeyEventHandler = new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent event) {
+                        if(event.getCode() == KeyCode.LEFT) {
+                            System.out.println("Left key");
+                            event.consume();
+                        }
+                    };
+                };
+                game.addEventHandler(KeyEvent.KEY_PRESSED,RightKeyEventHandler);
+                game.addEventHandler(KeyEvent.KEY_PRESSED,LeftKeyEventHandler);
+                p.setOnKeyPressed(RightKeyEventHandler);
+                p.setOnKeyPressed(LeftKeyEventHandler);
                 player.update(elapsed); 
+
             }
         }.start();
     }
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
-
-   
 }
