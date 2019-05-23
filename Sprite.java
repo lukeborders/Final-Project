@@ -1,15 +1,13 @@
-public abstract class Sprite extends Rectangle
+public abstract class Sprite 
 {
-	private int height; //height
-	private int width; //in pixels
 	private int xPos;
 	private int yPos;
-	public Sprite(int x, int y, int h,int w)
+	private double yVelocity;
+	public Sprite(int x, int y,double yv)
 	{
 		xPos = x;
 		yPos = y;
-		height = h;
-		width = w;
+		yVelocity = yv;
 
 	}
 	public abstract void update(double etime);
@@ -22,8 +20,7 @@ public abstract class Sprite extends Rectangle
 
 	public abstract void setYPos(int newY);
 	
-	public abstract int getHeight();
-
-	public abstract int getWidth();
-
+	
+	public abstract int getCurrentXPos();
+	public abstract void setCurrentXPos(int newXPos);
 }
