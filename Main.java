@@ -130,11 +130,27 @@ public class Main extends Application{ //extend application
                 }
                 //everything that needs to be updated 60 times per second
                 player.update(elapsed);
+                public static double getElapsedTime() {return elapsed;}
             }
             
         }.start();
     }
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
+    }
+    public static void simulateObjectVelocity(Obstacle param) {
+        double accelerationMultiplier = 1.25;
+        double start = system.nanoTime();
+        double elapsedTime = getElapsedTime();
+        double startingVelocity = 10;
+        param.setYVelocity(startingVelocity);
+        double distance = param.getYVelocity * elapsedTime();
+        double currentTime = elapsedTime - start;
+        if(elapsedTime = currentTime + 10) {
+            param.setYVelocity(startingVelocity*accelerationMultiplier);
+        }
+        param.setTranslateY(distance);
+        
+        
     }
 }
