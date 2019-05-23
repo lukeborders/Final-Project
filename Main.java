@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
+import javafx.scene.media.AudioClip;
+//import com.sun.media.jfxmedia.AudioClip;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node.*;
 import javafx.application.*;
@@ -43,20 +46,30 @@ public class Main extends Application{ //extend application
         Rectangle p = player.getPlayer();
         Line line1 = new Line(-100,0,-100,500);
         Line line2 = new Line(100,0,100,500);
-        //Barrel b = new Barrel(((int)Math.random()*150),((int)Math.random()*500),0,45);
+        Barrel barrel = new Barrel(0,0,0,20);
+        Circle b = barrel.getBarrel();
+        AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
+        
+        
+        
+        
 
 
         startButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
             public void handle(ActionEvent arg0) {
+                epicGamerSounds.play();
+                b.setTranslateX(((int)(Math.random()*150))); //spawns one barrel of random X-location
+                b.setTranslateY(-300);
                 gamePane.getChildren().add(p);
                 System.out.println(p);
                 gamePane.getChildren().add(line1);
                 gamePane.getChildren().add(line2);
-                //gamePane.getChildren().add(b.getBarrel());
+                gamePane.getChildren().add(b);
                 line1.setTranslateX(-200.0);
                 line2.setTranslateX(200.0);
                 stage.setScene(game);
                 stage.show();
+
             }
         });
         
@@ -108,33 +121,20 @@ public class Main extends Application{ //extend application
         game.setOnKeyPressed(escapeHandler);
 
         final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
-        new AnimationTimer() { //creates a timer that is called in each frame 
+        new AnimationTimer() { 
             public void handle(long currentTime) {
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 if(Platform.isFxApplicationThread()==true) {
                     p.setTranslateX(player.getXPos());
-                    
-                
+                    b.setTranslateY(barrel.getYPos());
                 }
-
-
                 //everything that needs to be updated 60 times per second
-
                 player.update(elapsed);
             }
             
         }.start();
-        
-        
-        
     }
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
-   /*public static Obstacle getRandomObstacle() {
-        Obstacle b = new Barrel(Math.random()*150,Math.random()*500,45);
-        Obstacle[] obstacle = {b};
-        return obstacle[Math.random()*obstacle.length];
-   }
-   */
 }
