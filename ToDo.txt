@@ -1,3 +1,3 @@
-1. Need to get Player.render() method to actually update the positions on the stage/scene or whatever
-3. Make sure Player.update() works and also put an update for xposition (figure out a system)
-4. MAKE THE ACTUAL PLAYER MOVE 
+1. Spawn obstacles randomly on the x-axis but at y = screen height...
+2. Simulate the player moving by adding a negative y velocity to the obstacles
+3. Collision integration
