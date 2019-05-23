@@ -1,28 +1,25 @@
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-public class Player {
+public class Player extends Sprite {
 	private int xPos;
 	private int yPos;
 	private int height;
 	private int width;
 	private Rectangle playerSprite;
 	private double yVelocity;
-	private int currentPosition;
-	public Player(int x, int y, int h, int w, double yv) {
-		xPos = x;
-		yPos = y;
-		yVelocity = yv;
+	private int xcurrentPosition;
+	public Player(int x, int y,int h,int w, double yv) {
+		super(x,y,yv);
 		height = h;
 		width = w;
-		playerSprite = new Rectangle(x,y,height,width);	
+		playerSprite = new Rectangle(x,y,w,h);	
 		playerSprite.setFill(Color.BLUE);
 	}
 	public void update(double etime) { //needs to update position according to the time elapsed;
 		yPos += yVelocity * etime;
 	}
 	public void render() {
-		playerSprite = new Rectangle(height,width,xPos,yPos);		
-		//need to somehow show the new sprite
+		playerSprite = new Rectangle(xPos,yPos,width,height);		
 	}
 	public int getXPos() {
 		return xPos;
@@ -36,13 +33,19 @@ public class Player {
 	public void setYPos(int newY) {
 		yPos = newY;
 	}
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
+	}
 	public Rectangle getPlayer() {
 		return playerSprite;
 	}
-	public int getCurrentPosition() {
-		return currentPosition;
+	public int getCurrentXPos() {
+		return xcurrentPosition;
 	}
-	public void setCurrentPosition(int newPos) {
-		currentPosition = newPos;
+	public void setCurrentXPos(int newXPos) {
+		xcurrentPosition = newXPos;
 	}
 }
