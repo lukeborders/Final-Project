@@ -12,8 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.media.AudioClip;
-//import com.sun.media.jfxmedia.AudioClip;
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node.*;
 import javafx.application.*;
@@ -48,7 +46,7 @@ public class Main extends Application{ //extend application
         Line line2 = new Line(100,0,100,500);
         Barrel barrel = new Barrel(0,0,0,20);
         Circle b = barrel.getBarrel();
-        AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicGamerMusic.wav").toString());
+        AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
         
         
         
@@ -142,19 +140,18 @@ public class Main extends Application{ //extend application
         double accelerationMultiplier = 1.50;
         double start = System.nanoTime();
         double elapsedTime = elapsed;
-        double startingVelocity = 50.0;
-        param.setYVelocity(startingVelocity);
+        
+        
         double distance = param.getYVelocity() * elapsedTime;
-        double currentTime = elapsedTime - start;
-        double currentVelocity = (param.getYVelocity() * accelerationMultiplier);
-        if((elapsed % 2.0) == 0) {
-            param.setYVelocity(currentVelocity*accelerationMultiplier);
-            System.out.println("IF STATEMENT IS INITIALIZED");
-            
+        double currentVelocity = 50.0;
+        param.setYVelocity(currentVelocity);
+        if((((int)elapsed) % 2) == 0) {
+            currentVelocity = currentVelocity * accelerationMultiplier;
+            param.setYVelocity(currentVelocity);            
         }
         param.getBarrel().setTranslateY(distance);
-        //System.out.println(param.getYVelocity());
-        //System.out.println(elapsed);
+        System.out.println(param.getYVelocity());
+        System.out.println(elapsed);
 
         
         
