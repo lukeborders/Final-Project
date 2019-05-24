@@ -48,14 +48,20 @@ public class Main extends Application{ //extend application
         Circle b = barrel.getBarrel();
         AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
         
-        
-        
-        
-
-
-        startButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
+        MusicOffButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
             public void handle(ActionEvent arg0) {
                 epicGamerSounds.play();
+            }
+        });
+        
+
+//will work on tonight -nat
+        startButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
+            public void handle(ActionEvent arg0) {
+                if(){}
+                else{
+                     epicGamerSounds.play();
+                }
                 b.setTranslateX(((int)(Math.random()*150))); //spawns one barrel of random X-location
                 b.setTranslateY(500.0); //should be outside of lines but doesnt work
                 gamePane.getChildren().add(p);
