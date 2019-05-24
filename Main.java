@@ -59,7 +59,7 @@ public class Main extends Application{ //extend application
             public void handle(ActionEvent arg0) {
                 epicGamerSounds.play();
                 b.setTranslateX(((int)(Math.random()*150))); //spawns one barrel of random X-location
-                b.setTranslateY(-300);
+                b.setTranslateY(500.0); //should be outside of lines but doesnt work
                 gamePane.getChildren().add(p);
                 System.out.println(p);
                 gamePane.getChildren().add(line1);
@@ -126,11 +126,11 @@ public class Main extends Application{ //extend application
                 double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                 if(Platform.isFxApplicationThread()==true) {
                     p.setTranslateX(player.getXPos());
-                    b.setTranslateY(barrel.getYPos());
+                    simulateObjectVelocity(barrel,elapsed);
                 }
                 //everything that needs to be updated 60 times per second
                 player.update(elapsed);
-                public static double getElapsedTime() {return elapsed;}
+                
             }
             
         }.start();
@@ -138,18 +138,24 @@ public class Main extends Application{ //extend application
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
-    public static void simulateObjectVelocity(Obstacle param) {
-        double accelerationMultiplier = 1.25;
-        double start = system.nanoTime();
-        double elapsedTime = getElapsedTime();
-        double startingVelocity = 10;
+    public static void simulateObjectVelocity(Barrel param,double elapsed) {
+        double accelerationMultiplier = 1.50;
+        double start = System.nanoTime();
+        double elapsedTime = elapsed;
+        double startingVelocity = 50.0;
         param.setYVelocity(startingVelocity);
-        double distance = param.getYVelocity * elapsedTime();
+        double distance = param.getYVelocity() * elapsedTime;
         double currentTime = elapsedTime - start;
-        if(elapsedTime = currentTime + 10) {
-            param.setYVelocity(startingVelocity*accelerationMultiplier);
+        double currentVelocity = (param.getYVelocity() * accelerationMultiplier);
+        if((elapsed % 2.0) == 0) {
+            param.setYVelocity(currentVelocity*accelerationMultiplier);
+            System.out.println("IF STATEMENT IS INITIALIZED");
+            
         }
-        param.setTranslateY(distance);
+        param.getBarrel().setTranslateY(distance);
+        //System.out.println(param.getYVelocity());
+        //System.out.println(elapsed);
+
         
         
     }
