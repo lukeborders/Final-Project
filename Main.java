@@ -48,7 +48,7 @@ public class Main extends Application{ //extend application
         Line line2 = new Line(100,0,100,500);
         Barrel barrel = new Barrel(0,0,0,20);
         Circle b = barrel.getBarrel();
-        AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
+        AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicGamerMusic.wav").toString());
         
         
         
