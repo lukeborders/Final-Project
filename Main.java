@@ -163,8 +163,8 @@ public class Main extends Application{ //extend application
         
         
     }
-    /*public static void simulateObjectVelocity(Barrel param,double elapsed) {
-        double accelerationMultiplier = 1.1;
+    public static void simulateObjectVelocity(Barrel param,double elapsed) {
+        double accelerationMultiplier = (1.1);
         double start = System.nanoTime();
         double elapsedTime = elapsed;
         
@@ -182,11 +182,12 @@ public class Main extends Application{ //extend application
             hasRun = false;
         }
 
+       // param.setRadius(param.getRadius() * 50);
         param.getBarrel().setTranslateY(distance);
         System.out.println(param.getYVelocity());
         System.out.println(elapsed);
 
         
         
-    }*/
+    }
 }
