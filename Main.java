@@ -45,9 +45,11 @@ public class Main extends Application{ //extend application
         Rectangle p = player.getPlayer();
         Line line1 = new Line(-100,0,-100,500);
         Line line2 = new Line(100,0,100,500);
-        Barrel barrel = new Barrel(0,0,0,20);
+        Barrel barrel = new Barrel(0,200,0,20);
         Circle b = barrel.getBarrel();
         AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
+        b.setTranslateY(barrel.getYPos()); //should be outside of lines but doesnt work
+
         
        /* MusicOffButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
             public void handle(ActionEvent arg0) {
@@ -63,8 +65,8 @@ public class Main extends Application{ //extend application
                 //else{
                 epicGamerSounds.play();
                // }
+
                 b.setTranslateX(((int)(Math.random()*150))); //spawns one barrel of random X-location
-                b.setTranslateY(500.0); //should be outside of lines but doesnt work
                 gamePane.getChildren().add(p);
                 System.out.println(p);
                 gamePane.getChildren().add(line1);
@@ -74,6 +76,20 @@ public class Main extends Application{ //extend application
                 line2.setTranslateX(200.0);
                 stage.setScene(game);
                 stage.show();
+                final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
+                new AnimationTimer() {
+                    public void handle(long currentTime) {
+                        double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
+                        if(Platform.isFxApplicationThread()==true) {
+                            p.setTranslateX(player.getXPos());
+                            simulateObjectVelocity(barrel,elapsed);
+                        }
+                        //everything that needs to be updated 60 times per second
+                        player.update(elapsed);
+
+                    }
+
+                }.start();
 
             }
         });
@@ -125,24 +141,12 @@ public class Main extends Application{ //extend application
         game.setOnKeyPressed(LeftKeyEventHandler);
         game.setOnKeyPressed(escapeHandler);
 
-        final long startTime = System.nanoTime(); //variable for storing the start of the game  I think
-        new AnimationTimer() { 
-            public void handle(long currentTime) {
-                double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
-                if(Platform.isFxApplicationThread()==true) {
-                    p.setTranslateX(player.getXPos());
-                    simulateObjectVelocity(barrel,elapsed);
-                }
-                //everything that needs to be updated 60 times per second
-                player.update(elapsed);
-                
-            }
-            
-        }.start();
+
     }
     public static void main(String[] args) { //ALWAYS NEED A MAIN METHOD ;)
         launch(args); //method that launches the program when main method is called on startup.
     }
+    /*
     public static void simulateObjectVelocity(Barrel param,double elapsed) {
         double accelerationMultiplier = 1.50;
         double start = System.nanoTime();
@@ -162,13 +166,11 @@ public class Main extends Application{ //extend application
 
         
         
-    }
+    } */
     public static void simulateObjectVelocity(Barrel param,double elapsed) {
         double accelerationMultiplier = (1.1);
         double start = System.nanoTime();
         double elapsedTime = elapsed;
-        
-
         double distance = param.getYVelocity() * elapsedTime;
         double currentVelocity = param.getCurrentVelocity();
         if((((int)elapsed) % 2) == 0 && hasRun == false) {
@@ -182,7 +184,7 @@ public class Main extends Application{ //extend application
             hasRun = false;
         }
 
-       // param.setRadius(param.getRadius() * 50);
+        //param.setRadius(param.getRadius() * 50);
         param.getBarrel().setTranslateY(distance);
         System.out.println(param.getYVelocity());
         System.out.println(elapsed);
