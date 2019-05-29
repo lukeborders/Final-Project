@@ -6,6 +6,7 @@ public class Obstacle extends Sprite {
     //private Rectangle bounds;
     private int ycurrentPosition;
     private int xcurrentPosition;
+    private double currentVelocity = 50;
     public Obstacle(int x, int y, double yv) {
         super(x,y,yv);
     }
@@ -35,6 +36,16 @@ public class Obstacle extends Sprite {
     }
     public int getCurrentXPos() {
         return xcurrentPosition;
+    }
+    public double getYVelocity(){return yVelocity;}
+    public void setYVelocity(double value) {
+        yVelocity = value;
+    }
+    public double getCurrentVelocity() {
+        return currentVelocity;
+    }
+    public void setCurrentVelocity(double value) {
+        currentVelocity = value;
     }
     
 }
