@@ -21,6 +21,7 @@ import javafx.scene.text.*;
 import javafx.scene.paint.Color;
 public class Main extends Application{ //extend application 
     private static boolean hasRun = false;
+    private static int barrelCount = 0;
     public void start(Stage stage) { // stage is basically a window; also start method is run when the program is run so everything that needs to be done when the program first starts is to be put here
         Button startButton = new Button("START"); // example of a node or element is a button
         Text mainText = new Text("Welcome to the Square Game");
@@ -45,7 +46,19 @@ public class Main extends Application{ //extend application
         Rectangle p = player.getPlayer();
         Line line1 = new Line(-100,0,-100,500);
         Line line2 = new Line(100,0,100,500);
-        Barrel barrel = new Barrel(0,200,0,20);
+        Barrel barrel = new Barrel(0,200,50,20);
+        Barrel[] barrelarr = new Barrel[7];
+        for(int i = 0; i < barrelarr.length; i++) {
+            Barrel s = new Barrel(0,0,50,20);
+            barrelarr[i] = s;
+
+        }
+        for(Barrel b: barrelarr) {
+
+            gamePane.getChildren().add(b.getBarrel());
+            b.setXPos(((int)Math.random()*150));
+            b.setYPos(-300);
+        }
         Circle b = barrel.getBarrel();
         AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
         b.setTranslateY(barrel.getYPos()); //should be outside of lines but doesnt work
@@ -83,6 +96,11 @@ public class Main extends Application{ //extend application
                         if(Platform.isFxApplicationThread()==true) {
                             p.setTranslateX(player.getXPos());
                             simulateObjectVelocity(barrel,elapsed);
+                            for(Barrel b: barrelarr) {
+                                simulateObjectVelocity(b, elapsed);
+
+                            }
+
                         }
                         //everything that needs to be updated 60 times per second
                         player.update(elapsed);
@@ -173,23 +191,20 @@ public class Main extends Application{ //extend application
         double elapsedTime = elapsed;
         double distance = param.getYVelocity() * elapsedTime;
         double currentVelocity = param.getCurrentVelocity();
-        if((((int)elapsed) % 2) == 0 && hasRun == false) {
-            currentVelocity = currentVelocity * accelerationMultiplier;
+        if((((int)elapsed) % 2) == 0) {
+            //currentVelocity = currentVelocity * accelerationMultiplier;
             param.setCurrentVelocity(currentVelocity);
             param.setYVelocity(currentVelocity);
-            System.out.println((((int)elapsed) % 2));
-            hasRun = true;
+          //  System.out.println((((int)elapsed) % 2));
         }
-        else {
-            hasRun = false;
-        }
+
 
         //param.setRadius(param.getRadius() * 50);
         param.getBarrel().setTranslateY(distance);
-        System.out.println(param.getYVelocity());
-        System.out.println(elapsed);
+        //System.out.println(param.getYVelocity());
+        //System.out.println(elapsed);
 
-        
-        
+
+
     }
 }
