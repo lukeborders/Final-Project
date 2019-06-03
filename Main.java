@@ -19,9 +19,13 @@ import javafx.application.Platform;
 import javafx.application.Platform.*;
 import javafx.scene.text.*;
 import javafx.scene.paint.Color;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 public class Main extends Application{ //extend application 
     private static boolean hasRun = false;
     private static int barrelCount = 0;
+    private MediaView mediaview;
     public void start(Stage stage) { // stage is basically a window; also start method is run when the program is run so everything that needs to be done when the program first starts is to be put here
         Button startButton = new Button("START"); // example of a node or element is a button
         Text mainText = new Text("Welcome to the Square Game");
@@ -47,7 +51,8 @@ public class Main extends Application{ //extend application
         Line line1 = new Line(-100,0,-100,500);
         Line line2 = new Line(100,0,100,500);
         Barrel[] barrelarr = new Barrel[2];
-        
+        StackPane sikeStack = new StackPane();
+        Scene sikeScene = new Scene(sikeStack,600,400);
 
         AudioClip epicGamerSounds = new AudioClip(this.getClass().getResource("epicgamermusic.wav").toString());
         StackPane go = new StackPane();
@@ -65,12 +70,17 @@ public class Main extends Application{ //extend application
 //will work on tonight -nat
         startButton.setOnAction(new EventHandler<ActionEvent>(){ //start button handler
             public void handle(ActionEvent arg0) {
-                epicGamerSounds.play();
+              //  epicGamerSounds.play();
                 gamePane.getChildren().add(p);
                 System.out.println(p);
                 gamePane.getChildren().add(line1);
                 gamePane.getChildren().add(line2);
-
+                /*Media media = new Media("background.mp4");
+                MediaPlayer mplayer = new MediaPlayer(media);
+                mediaview.setMediaPlayer(mplayer);
+                mplayer.setVolume(0);
+                mplayer.play();
+*/
                 line1.setTranslateX(-200.0);
                 line2.setTranslateX(200.0);
                 stage.setScene(game);
@@ -78,7 +88,7 @@ public class Main extends Application{ //extend application
                 for(int i = 0; i < barrelarr.length; i++) {
                     Barrel s = new Barrel(((int)getRandomPosition()),-500,70,20);
                     s.getBarrel().setTranslateX(getRandomPosition());
-                    s.getBarrel().setTranslateY(-300.0);
+                    s.getBarrel().setTranslateY(getRandomY());
 
                     barrelarr[i] = s;
                     gamePane.getChildren().add(barrelarr[i].getBarrel());
@@ -93,18 +103,29 @@ public class Main extends Application{ //extend application
                             for(int i = 0; i < barrelarr.length;i++) {
                                 simulateObjectVelocity(barrelarr[i], elapsed);
                                 System.out.println(((int)barrelarr[i].getBarrel().getTranslateY()));
-                                if(((int)barrelarr[i].getBarrel().getTranslateY() == 300)) {
+                                if((300) <= barrelarr[i].getBarrel().getTranslateY()) {
                                     gamePane.getChildren().remove(barrelarr[i].getBarrel());
                                     barrelarr[i] = new Barrel(((int)getRandomPosition()), -300, 70, 20);
-                                    barrelarr[i].getBarrel().setTranslateY(-300);
+                                    barrelarr[i].getBarrel().setTranslateY(getRandomY());
                                     barrelarr[i].getBarrel().setTranslateX(getRandomPosition());
                                     gamePane.getChildren().add(barrelarr[i].getBarrel());
                                 }
                                 if(didCollide(player,barrelarr[i])==true) {
                                     stage.setScene(gameOver);
                                     Text gameOverText = new Text("haha ur bad");
+                                    gameOverText.setTranslateY(-85);
                                     gameOverText.setFill(Color.RED);
                                     go.getChildren().add(gameOverText);
+                                    Button b = new Button("Restart Game");
+                                    go.getChildren().add(b);
+                                    b.setOnAction(new EventHandler<ActionEvent>(){
+                                       public void handle(ActionEvent arg0) {
+                                            stage.setScene(sikeScene);
+                                            Text s = new Text("Haha you thought");
+                                            sikeStack.getChildren().add(s);
+                                       }
+                                    });
+
 
                                 }
 
@@ -158,12 +179,22 @@ public class Main extends Application{ //extend application
         };
 
         /* all registrations and usages of handlers */
+        sikeScene.addEventHandler(KeyEvent.KEY_PRESSED,escapeHandler);
         game.addEventHandler(KeyEvent.KEY_PRESSED,escapeHandler);
+        gameOver.addEventHandler(KeyEvent.KEY_PRESSED,escapeHandler);
+        mainScene.addEventHandler(KeyEvent.KEY_PRESSED,escapeHandler);
         game.addEventHandler(KeyEvent.KEY_PRESSED,RightKeyEventHandler);
         game.addEventHandler(KeyEvent.KEY_PRESSED,LeftKeyEventHandler);
         game.setOnKeyPressed(RightKeyEventHandler);
         game.setOnKeyPressed(LeftKeyEventHandler);
         game.setOnKeyPressed(escapeHandler);
+        gameOver.setOnKeyPressed(escapeHandler);
+        mainScene.setOnKeyPressed(escapeHandler);
+        sikeScene.setOnKeyPressed(escapeHandler);
+
+
+
+
 
 
     }
@@ -197,21 +228,64 @@ public class Main extends Application{ //extend application
 
 
     }
-    public static double getRandomPosition() {
+    public static double getRandomY() {
         double r = 0.0;
-        double[] random = {(Math.random()*150),(Math.random()*-150)};
-        int randomI = ((int)(Math.random()*2));
+        double[] random = {-300,-700,-400,-500,-550,-600,-1000};
+        int randomI = ((int)(Math.random()*7));
         if(randomI == 1) {
             r = random[0];
         }
-        else {
+        else if(randomI == 2) {
             r = random[1];
+        }
+        else if(randomI == 3) {
+            r = random[2];
+        }
+        else if(randomI == 4) {
+            r = random[3];
+        }
+        else if(randomI == 5) {
+            r = random[4];
+        }
+        else if(randomI == 6) {
+            r = random[5];
+        }
+        else if(randomI == 7) {
+            r = random[6];
+        }
+        return r;
+
+    }
+    public static double getRandomPosition() {
+        double r = 0.0;
+        double[] random = {-150,-100,-50,0,50,100,150};
+        int randomI = ((int)(Math.random()*7));
+        if(randomI == 1) {
+            r = random[0];
+        }
+        else if(randomI == 2) {
+            r = random[1];
+        }
+        else if(randomI == 3) {
+            r = random[2];
+        }
+        else if(randomI == 4) {
+            r = random[3];
+        }
+        else if(randomI == 5) {
+            r = random[4];
+        }
+        else if(randomI == 6) {
+            r = random[5];
+        }
+        else if(randomI == 7) {
+            r = random[6];
         }
         return r;
     }
     public boolean didCollide(Player p,Barrel b) {
         boolean r = false;
-        if(p.getXPos() == b.getBarrel().getTranslateX() && b.getBarrel().getTranslateY() == 0) {
+        if(p.getXPos() == b.getBarrel().getTranslateX() && (0) <= b.getBarrel().getTranslateY()) {
             r = true;
         }
         return r;
@@ -227,4 +301,27 @@ public class Main extends Application{ //extend application
         }
     }
 
+
 }
+/*──────────────────▄▄───▄▄▄▄▄▄▀▀▀▄──▄
+        ────────────────▄▀──▀▀█▄▄──▄────█▄█▄▀▀▄▄▄▄
+        ─────────────────▀█▀────▀▀▀▀█▄▄▄▄───▄▄────▀▀▀▀
+        ─────────────▄▀▀▀▀▀──▀█▄▄▄▄▄─▀▀▀▀▀█▄███▀
+        ──────────────▀█▄▄▄──▀▀─▄▄▄▄──────────▀▀▀▀█▀▀▀
+        ───────▄▀▀▀▄▄▀▀████▀█▄▄▄▄▄▄▄▄▄▄▄───▄▄▄▄──▄█░▄█
+        ────────▀▄▄▄▀▀██▀▀▀▄█─███▄──██─────▀██▀▀─█░░██
+        ────────────▀█─▀▀█▄█▄─▀▀▀───█────────────▀█░▀█
+        ─────────▄▄▀▀─▀▀▀▀░░▀█────▄█▄▀────────────█░░░
+        ───▄▀▀▀▀▀░░░░░░░░░░░░░▀██▀▀▄▄▀▀──────────██░░░
+        ▄▀▀▄████░░███████░░▄▄▄▄░░▀█▄─▀▀──────────▀█▄▄░
+        █░░█████▄▄███████▄██████▄▄░▀█──███▄▄────────█▄
+        █░░░▀▀▀▀▀▀▀▀▀▀▀░░░░░░░░░▀▀▀░░█─▀███▀───────▄█▀
+        ─▀▀▄▄▄▄▄░░░░░░░░░░░░░░░░░░░░▄▀─────────────▀█░
+        ───▄▀▄▄▀░░░░░░░░░░░░░░░░░░░░█────────────────█ ooga booga
+        ▀▀▀─▀▄▀█░░░░░░░░░░░░░░░░░░░░█───────────────▄▀ where me
+        ─▄▄▀▀──▀▄░░░░░░░░░░░░░░░░░░█────────────────█░
+        ▀────────▀▄░░░░░░░░░░░░░░▄▀──────────▄█▄▄────█              S P O R K
+        ───────────▀▄▄▄▄░░░░░▄▄▄▀────────────▀██▀────█
+        ────────────█░░░▀▀▀▀██████████▀▀▀▀▀▀▄▄▄▄▄▄▄▄▄█
+        ───────────▄▀░░░░░░░█▒▒▒▒▒▒▒▒█░░░░░░░░░▄▄░░░░█
+        ───────────▀▄▄▄░░░░░█▒▒▒▒▒▒▒▒█░░░░░░░░░▀█▀░░░█*/
