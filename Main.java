@@ -19,13 +19,10 @@ import javafx.application.Platform;
 import javafx.application.Platform.*;
 import javafx.scene.text.*;
 import javafx.scene.paint.Color;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+
 public class Main extends Application{ //extend application 
     private static boolean hasRun = false;
     private static int barrelCount = 0;
-    private MediaView mediaview;
     public void start(Stage stage) { // stage is basically a window; also start method is run when the program is run so everything that needs to be done when the program first starts is to be put here
         Button startButton = new Button("START"); // example of a node or element is a button
         Text mainText = new Text("Welcome to the Square Game");
@@ -75,22 +72,22 @@ public class Main extends Application{ //extend application
                 System.out.println(p);
                 gamePane.getChildren().add(line1);
                 gamePane.getChildren().add(line2);
-                /*Media media = new Media("background.mp4");
-                MediaPlayer mplayer = new MediaPlayer(media);
-                mediaview.setMediaPlayer(mplayer);
-                mplayer.setVolume(0);
-                mplayer.play();
-*/
+
                 line1.setTranslateX(-200.0);
                 line2.setTranslateX(200.0);
                 stage.setScene(game);
                 stage.show();
+                Text counter = new Text();
+                counter.setTranslateY(-200);
+                counter.setTranslateX(150);
+                gamePane.getChildren().add(counter);
                 for(int i = 0; i < barrelarr.length; i++) {
                     Barrel s = new Barrel(((int)getRandomPosition()),-500,70,20);
                     s.getBarrel().setTranslateX(getRandomPosition());
                     s.getBarrel().setTranslateY(getRandomY());
-
+                    s.setXPos(s.getXPos());
                     barrelarr[i] = s;
+
                     gamePane.getChildren().add(barrelarr[i].getBarrel());
                     //barrelarr[i].getBarrel().relocate(s.getXPos(),s.getXPos());
                 }
@@ -99,20 +96,30 @@ public class Main extends Application{ //extend application
                     public void handle(long currentTime) {
                         double elapsed = (currentTime - startTime)/1000000000.0; //variable for storing the calculated elapsed time
                         if(Platform.isFxApplicationThread()==true) {
+                            counter.setText(Integer.toString(((int)elapsed)));
+                            player.setScore(((int)elapsed));
                             p.setTranslateX(player.getXPos());
                             for(int i = 0; i < barrelarr.length;i++) {
                                 simulateObjectVelocity(barrelarr[i], elapsed);
-                                System.out.println(((int)barrelarr[i].getBarrel().getTranslateY()));
+                                //System.out.println(((int)barrelarr[i].getBarrel().getTranslateY()));
                                 if((300) <= barrelarr[i].getBarrel().getTranslateY()) {
+
+
                                     gamePane.getChildren().remove(barrelarr[i].getBarrel());
                                     barrelarr[i] = new Barrel(((int)getRandomPosition()), -300, 70, 20);
                                     barrelarr[i].getBarrel().setTranslateY(getRandomY());
                                     barrelarr[i].getBarrel().setTranslateX(getRandomPosition());
                                     gamePane.getChildren().add(barrelarr[i].getBarrel());
                                 }
-                                if(didCollide(player,barrelarr[i])==true) {
+                                if(didCollide(player,barrelarr[i])) {
+
+
                                     stage.setScene(gameOver);
                                     Text gameOverText = new Text("haha ur bad");
+                                    Text scoreText = new Text(Integer.toString(player.getScore()));
+                                    scoreText.setTranslateY(85);
+                                    gamePane.getChildren().add(scoreText);
+                                    gamePane.getChildren().remove(barrelarr[i]);
                                     gameOverText.setTranslateY(-85);
                                     gameOverText.setFill(Color.RED);
                                     go.getChildren().add(gameOverText);
@@ -207,6 +214,7 @@ public class Main extends Application{ //extend application
         double start = System.nanoTime();
         double elapsedTime = elapsed;
         double distance = param.getBarrel().getTranslateY() + ((param.getYVelocity()/70) * elapsedTime);
+
         param.getBarrel().setTranslateY(distance);
         /*if((((int)elapsed) % 2) == 0) {
             //currentVelocity = currentVelocity * accelerationMultiplier;
@@ -253,6 +261,10 @@ public class Main extends Application{ //extend application
         else if(randomI == 7) {
             r = random[6];
         }
+        else if(randomI == 0) {
+            r = random[1];
+        }
+
         return r;
 
     }
@@ -285,16 +297,19 @@ public class Main extends Application{ //extend application
     }
     public boolean didCollide(Player p,Barrel b) {
         boolean r = false;
-        if(p.getXPos() == b.getBarrel().getTranslateX() && (0) <= b.getBarrel().getTranslateY()) {
+        if(b.getXPos() == p.getXPos() &&  ((int)b.getBarrel().getTranslateY()) == p.getYPos()) {
+            System.out.println(((int)b.getBarrel().getTranslateY()));
+            System.out.println(p.getYPos());
             r = true;
         }
         return r;
     }
     public static void respawnObstacle(Barrel b,StackPane gamePane,double elapsed) {
-        System.out.println(((int)b.getBarrel().getTranslateY()));
+        //System.out.println(((int)b.getBarrel().getTranslateY()));
         if(((int)b.getBarrel().getTranslateY() == 300)) {
             gamePane.getChildren().remove(b.getBarrel());
             b = new Barrel(((int)getRandomPosition()), -300, 70, 20);
+
             b.getBarrel().setTranslateY(-300);
             b.getBarrel().setTranslateX(getRandomPosition());
             gamePane.getChildren().add(b.getBarrel());
